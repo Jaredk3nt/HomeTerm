@@ -1,11 +1,11 @@
 // Constants
 const LS_KEY = "cli-page-links";
-const LS_THEME_KEY = 'cli-page-theme';
+const LS_THEME_KEY = "cli-page-theme";
 const types = {
   LINK: "link",
   DIR: "directory",
 };
-const THEMES = ["dark", "light", "laserwave"];
+const THEMES = ["dark", "light", "laserwave", "nord", "greyscale", "dracula"];
 const COMMANDS = {
   ls: { func: joinWriter(list, listWriter), help: "usage: ls [<path to dir>]" },
   cd: { func: joinWriter(cd, textWriter), help: "usage: cd [<path>]" },
@@ -19,7 +19,7 @@ const COMMANDS = {
     help: "usage: mkdir <path to dir>",
   },
   theme: {
-    func: joinWriter(theme, textWriter),
+    func: joinWriter(theme, ulWriter),
     help: "usage: theme <theme name>",
   },
   rm: { func: joinWriter(rm, textWriter), help: "usage: rm <link path>" },
@@ -29,6 +29,10 @@ const COMMANDS = {
   },
   clear: { func: clear, help: "usage: clear" },
   help: { func: joinWriter(help, listWriter), help: "usage: help [<command>]" },
+  search: {
+    func: joinWriter(search, textWriter),
+    help: 'usage: search "<search string>"',
+  },
 };
 const WEEK_DAYS = [
   "monday",
@@ -39,6 +43,7 @@ const WEEK_DAYS = [
   "saturday",
   "sunday",
 ];
+const SEARCH_URL = "https://google.com/search?q=";
 // Global data
 let promptSymbol = "$";
 let links = {};
@@ -58,7 +63,10 @@ let commandHistoryCursor = -1;
   // write initial prompt
   const d = new Date();
   const [date, time] = d.toLocaleString().split(" ");
-  textWriter(`It's ${time.slice(0, time.length - 3)} on ${date.replace(",", "")}.`);
+  textWriter(
+    //`It's ${time.slice(0, time.length - 3)} on ${date.replace(",", "")}.`
+    'It\'s 7:48 on 7/10/2020.'
+  );
   writePrompt();
   // Setup event listener for commands
   document.addEventListener("keydown", handleKeyPresses);
@@ -98,55 +106,11 @@ function handleKeyPresses(e) {
   }
 }
 
-// Returns link url if link or cursor if directory
-// Throw error if bad path
-function locatePath(path) {
-  let cursor = getCurrentCursor();
-  const newPosition = [...position];
-  for (let i = 0; i < path.length; i++) {
-    const m = path[i];
-    if (m === "..") {
-      newPosition.pop();
-      cursor = getCursor(newPosition);
-    } else {
-      if (!cursor[m]) {
-        throw `no such link or directory: ${m}`;
-      }
-      if (locationType(cursor[m]) === types.LINK) {
-        if (i === path.length - 1) {
-          return cursor[m];
-        } else {
-          throw `not a directory: ${m}`;
-        }
-      }
-      newPosition.push(m);
-      cursor = getCursor(newPosition);
-    }
-  }
-  return cursor;
-}
-
-// LocalStorage Interaction Functions
-function readLinks() {
-  return safeParse(localStorage.getItem(LS_KEY));
-}
-
-function writeLinks() {
-  localStorage.setItem(LS_KEY, JSON.stringify(links));
-}
-
-function readTheme() {
-  return localStorage.getItem(LS_THEME_KEY);
-}
-
-function writeTheme(theme) {
-  localStorage.setItem(LS_THEME_KEY, theme);
-}
-
 // User Commands
 function runCommand(cmd) {
   commandHistory.push(cmd);
-  const parsedCmd = cmd.split(" ");
+  // TODO: update parse to handle flags and quotations to better handle future commands
+  const parsedCmd = parseCommand(cmd);
   let response;
   if (COMMANDS[parsedCmd[0]]) {
     if (parsedCmd.length > 1 && parsedCmd[1] === "-h") {
@@ -163,28 +127,4 @@ function runCommand(cmd) {
     replacePrompt();
   }
   focusPrompt();
-}
-
-// Write out functions
-function writePrompt() {
-  const terminal = document.getElementById("terminal-content");
-  const prompt = document.createElement("div");
-  prompt.classList.add("prompt");
-  prompt.innerHTML = `
-  <p class='prompt-title'>~${position.join(
-    "/"
-  )}<span class='prompt-cursor'>${promptSymbol}</span></p>
-  <input id='prompt-input' type='text' />
-  `;
-  terminal.appendChild(prompt);
-}
-
-function replacePrompt() {
-  const oldPrompt = document.getElementById("prompt-input");
-  const value = oldPrompt.value;
-  const promptText = document.createElement("p");
-  promptText.innerText = value;
-  promptText.classList.add("prompt-text");
-  oldPrompt.replaceWith(promptText);
-  writePrompt();
 }

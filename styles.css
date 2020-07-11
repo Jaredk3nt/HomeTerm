@@ -1,3 +1,5 @@
+
+
 body {
   width: 100vw;
   height: 100vh;
@@ -7,16 +9,22 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 13px;
 }
 
-body.dark {
+:root {
   --body-bg: #3f3f3f;
   --bg: #1f1f1f;
   --fg: #d4d4d4;
   --directory: #83a06c;
   --prompt: #83a06c;
   --cursor: var(--fg);
+  --listItem: var(--fg);
+  --listTitle: var(--fg);
 }
+
+body.dark { }
 
 body.light {
   --body-bg: #f3f3f3;
@@ -25,15 +33,52 @@ body.light {
   --directory: #526e39;
   --prompt: #526e39;
   --cursor: var(--fg);
+  --listItem: var(--fg);
+  --listTitle: var(--fg);
 }
 
 body.laserwave {
-  --body-bg: #221c27;
+  --body-bg: #1c1720;
   --bg: #27212e;
   --fg: #ffffff;
   --directory: #40b4c4;
-  --prompt: #EB64B9;
+  --prompt: #eb64b9;
   --cursor: var(--prompt);
+  --listItem: var(--fg);
+  --listTitle: var(--fg);
+}
+
+body.nord {
+  --body-bg: #2e3440;
+  --bg: #3b4252;
+  --fg: #eceff4;
+  --directory: #5e81ac;
+  --prompt: #8fbcbb;
+  --cursor: #88c0d0;
+  --listItem: var(--fg);
+  --listTitle: var(--fg);
+}
+
+body.dracula {
+  --body-bg: #191a20;
+  --bg: #282a35;
+  --fg: #f8f8f2;
+  --directory: #8be9fd;
+  --prompt: #e97fc0;
+  --cursor: #6272a4;
+  --listItem: var(--fg);
+  --listTitle: var(--fg);
+}
+
+body.greyscale {
+  --body-bg: #2a2a2a;
+  --bg: #1d1d1d;
+  --fg: #fff;
+  --directory: #888;
+  --prompt: #7a7a7a;
+  --cursor: var(--prompt);
+  --listItem: var(--fg);
+  --listTitle: var(--fg);
 }
 
 #terminal {
@@ -43,7 +88,7 @@ body.laserwave {
   height: 450px;
   box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.6);
   border-radius: 4px;
-  padding: 1em 0em;
+  padding: 1.5em 0em;
 }
 
 #terminal-content {
@@ -51,12 +96,11 @@ body.laserwave {
   width: 100%;
   height: 100%;
   overflow: scroll;
-  padding: 0em 1em;
+  padding: 0em 1.5em;
 }
 
 #terminal-content p {
   margin: 0px;
-  font-family: monospace;
 }
 
 .prompt {
@@ -67,10 +111,10 @@ body.laserwave {
   background-color: transparent;
   border: none;
   color: var(--fg);
-  font-family: monospace;
-  font-size: 13px;
+  font-size: 12px;
   flex-grow: 1;
   padding: 0.5em;
+  font-family: 'Source Code Pro', monospace;
 }
 #prompt-input:focus {
   outline: none;
@@ -105,9 +149,13 @@ body.laserwave {
 
 .ls-item {
   padding: 0em 0.5em;
-  font-family: monospace;
 }
 
 .ls-item.directory {
   color: var(--directory);
+}
+
+.default-list {
+  margin: 0px;
+  padding: 0em 1em;
 }

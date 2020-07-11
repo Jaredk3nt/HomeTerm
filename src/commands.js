@@ -1,13 +1,19 @@
+// Add flag on ls to do a tree style list to show full structure
+// Add flag on ls to show actual links with names
 function list(input) {
   const path = input[0] && input[0].split("/");
-  const cursor = path ? locatePath(path) : getCurrentCursor();
-  if (locationType(cursor) === types.DIR) {
-    return Object.entries(cursor).map(([key, value]) => {
-      return {
-        key,
-        type: locationType(value), // Determine if dir or link
-      };
-    });
+  try {
+    const cursor = path ? locatePath(path) : getCurrentCursor();
+    if (locationType(cursor) === types.DIR) {
+      return Object.entries(cursor).map(([key, value]) => {
+        return {
+          key,
+          type: locationType(value), // Determine if dir or link
+        };
+      });
+    }
+  } catch (err) {
+    return err;
   }
   return COMMANDS.ls.help;
 }
@@ -42,11 +48,11 @@ function openLink(input) {
     try {
       const path = input[0].split("/");
       const target = locatePath(input[0].split("/"));
+      console.log(target);
       if (locationType(target) === types.DIR) {
         return `not a link: ${path[path.length - 1]}`;
       }
-      // TODO: make window open work
-      const newWindow = window.open(target, "_blank");
+      window.open(target, "_blank");
       return;
     } catch (err) {
       return err;
@@ -96,14 +102,14 @@ function theme(input) {
     writeTheme(input[0]);
     return;
   }
-  return `Available themes: ${THEMES.join(", ")}`;
+  return { title: "Available themes:", items: THEMES };
 }
 
 function rm(input) {
   if (input.length) {
     const path = input[0].split("/");
     try {
-      const target = locatePath(path.slice(0, path.length - 2));
+      const target = locatePath(path.slice(0, path.length - 1));
       const linkToDelete = path[path.length - 1];
       if (!target[linkToDelete]) {
         return `no such link: ${linkToDelete}`;
@@ -125,10 +131,10 @@ function rmdir(input) {
   if (input.length) {
     const path = input[0].split("/");
     try {
-      const target = locatePath(path.slice(0, path.length - 2));
+      const target = locatePath(path.slice(0, path.length - 1));
       const dirToDelete = path[path.length - 1];
       if (!target[dirToDelete]) {
-        return `no such dir: ${linkToDelete}`;
+        return `no such dir: ${dirToDelete}`;
       }
       if (!locationType(target[dirToDelete]) === types.DIR) {
         return `not a dir: ${dirToDelete}`;
@@ -157,4 +163,12 @@ function help(input) {
     return Object.keys(COMMANDS).map((cmd) => ({ key: cmd, type: types.LINK }));
   }
   return COMMANDS[input[0]].help;
+}
+
+function search(input) {
+  if (input) {
+    window.open(SEARCH_URL + input[0], "_blank");
+    return;
+  }
+  return COMMANDS.search.help;
 }
