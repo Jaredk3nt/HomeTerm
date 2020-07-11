@@ -9,8 +9,8 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Source Code Pro', monospace;
-  font-size: 13px;
+  font-family: var(--fontFamily);
+  font-size: var(--fontSize);
 }
 
 :root {
@@ -22,6 +22,9 @@ body {
   --cursor: var(--fg);
   --listItem: var(--fg);
   --listTitle: var(--fg);
+
+  --fontSize: 13px;
+  --fontFamily: 'Source Code Pro', monospace;
 }
 
 body.dark { }
@@ -111,10 +114,10 @@ body.greyscale {
   background-color: transparent;
   border: none;
   color: var(--fg);
-  font-size: 12px;
   flex-grow: 1;
   padding: 0.5em;
-  font-family: 'Source Code Pro', monospace;
+  font-family: var(--fontFamily);
+  font-size: var(--fontSize);
 }
 #prompt-input:focus {
   outline: none;

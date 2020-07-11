@@ -4,8 +4,6 @@ A homepage disguised as a toy terminal!
 
 ![HomeTerm](/media/HomeTerm.png)
 
-## Features
-
 - Dyanmic prompt to interact with bookmarks
 - Built in Google search
 - Multiple themes with command for switching easily
@@ -56,3 +54,18 @@ You should now be able to switch to your theme using the terminal!
 ## Fixing issues
 
 Your TermPage file structure is stored in your browsers LocalStorage, if you encounter any bugs you can solve them by either modifying _(open an issue for help)_ or deleting your LocalStorage. **Please submit isses for any bugs you find!**
+
+## Roadmap
+
+### Features
+
+- `edit` command for changing urls
+- `mv` to rename dir and link names
+- `export` and `import` for sharing your file structure with other machines
+- Tree view for `ls`, and url view for `ls`
+- Add flags for search to change search engine
+- Tab complete for commands and paths
+
+### Themes
+
+- NightOwl

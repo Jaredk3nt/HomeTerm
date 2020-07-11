@@ -64,8 +64,7 @@ let commandHistoryCursor = -1;
   const d = new Date();
   const [date, time] = d.toLocaleString().split(" ");
   textWriter(
-    //`It's ${time.slice(0, time.length - 3)} on ${date.replace(",", "")}.`
-    'It\'s 7:48 on 7/10/2020.'
+    `It's ${time.slice(0, time.length - 3)} on ${date.replace(",", "")}.`
   );
   writePrompt();
   // Setup event listener for commands
