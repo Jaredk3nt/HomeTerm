@@ -5,7 +5,15 @@ const types = {
   LINK: "link",
   DIR: "directory",
 };
-const THEMES = ["dark", "light", "laserwave", "nord", "greyscale", "dracula"];
+const THEMES = [
+  "dark",
+  "light",
+  "laserwave",
+  "nord",
+  "greyscale",
+  "dracula",
+  "nightowl",
+];
 const COMMANDS = {
   ls: { func: joinWriter(list, listWriter), help: "usage: ls [<path to dir>]" },
   cd: { func: joinWriter(cd, textWriter), help: "usage: cd [<path>]" },
@@ -32,6 +40,10 @@ const COMMANDS = {
   search: {
     func: joinWriter(search, textWriter),
     help: 'usage: search "<search string>"',
+  },
+  tree: {
+    func: joinWriter(tree, treeWriter),
+    help: "usage: tree",
   },
 };
 const WEEK_DAYS = [

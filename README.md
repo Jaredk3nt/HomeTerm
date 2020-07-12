@@ -14,19 +14,20 @@ A homepage disguised as a toy terminal!
 
 Here are the currently available commands that can be run on the terminal.
 
-| Command  | usage                        | description                                                    |
-| -------- | ---------------------------- | -------------------------------------------------------------- |
-| `ls`     | `ls [<path to dir>]`         | List children of current working directory or given directory. |
-| `cd`     | `cd [<path>]`                | Move into given directory. If no path given move to root.      |
-| `open`   | `open <path to link>`        | Open a link in a new tab.                                      |
-| `touch`  | `touch <path to link> <url>` | Create a new link                                              |
-| `mkdir`  | `mkdir <path to dir>`        | Create a new directory                                         |
-| `rm`     | `rm <path to link>`          | Delete link                                                    |
-| `rmdir`  | `rmdir <path to dir>`        | Delete dir and all contents                                    |
-| `search` | `search "<search string>"`   | Search google with search. Must be in quotes.                  |
-| `clear`  | `clear`                      | Clear the terminal of past commands.                           |
-| `theme`  | `theme [<theme name>]`       | Change theme.                                                  |
-| `help`   | `help [<command>]`           | Get information on commands.                                   |
+| Command  | usage                        | description                                                                       |
+| -------- | ---------------------------- | --------------------------------------------------------------------------------- |
+| `ls`     | `ls [<path to dir>]`         | List children of current working directory or given directory.                    |
+| `tree`   | `tree [<path to dir>]`       | Lists all children of current working directory or given directory in tree format |
+| `cd`     | `cd [<path>]`                | Move into given directory. If no path given move to root.                         |
+| `open`   | `open <path to link>`        | Open a link in a new tab.                                                         |
+| `touch`  | `touch <path to link> <url>` | Create a new link                                                                 |
+| `mkdir`  | `mkdir <path to dir>`        | Create a new directory                                                            |
+| `rm`     | `rm <path to link>`          | Delete link                                                                       |
+| `rmdir`  | `rmdir <path to dir>`        | Delete dir and all contents                                                       |
+| `search` | `search "<search string>"`   | Search google with search. Must be in quotes.                                     |
+| `clear`  | `clear`                      | Clear the terminal of past commands.                                              |
+| `theme`  | `theme [<theme name>]`       | Change theme.                                                                     |
+| `help`   | `help [<command>]`           | Get information on commands.                                                      |
 
 ## Theming
 
@@ -62,10 +63,10 @@ Your TermPage file structure is stored in your browsers LocalStorage, if you enc
 - `edit` command for changing urls
 - `mv` to rename dir and link names
 - `export` and `import` for sharing your file structure with other machines
-- Tree view for `ls`, and url view for `ls`
+- ~~Tree view for `ls`, and url view for `ls`~~
 - Add flags for search to change search engine
 - Tab complete for commands and paths
 
 ### Themes
 
-- NightOwl
+- ~~NightOwl~~

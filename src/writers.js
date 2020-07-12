@@ -27,7 +27,7 @@ function textWriter(output = "") {
   terminal.appendChild(outputNode);
 }
 
-function ulWriter(output = '') {
+function ulWriter(output = "") {
   // TODO: simplify these cases together
   if (Array.isArray(output)) {
     // Simple ul
@@ -60,4 +60,35 @@ function ulWriter(output = '') {
   } else {
     textWriter(output);
   }
+}
+
+function treeWriter(output = "") {
+  if (Array.isArray(output)) {
+    listWriter(output);
+  } else if (typeof output === "object") {
+    const terminal = document.getElementById("terminal-content");
+    const outputNode = document.createElement("div");
+    outputNode.classList.add("terminal-output");
+    let inner = "<ul class='tree-list'>";
+    inner = inner + buildNestedList(output, []).join("") + "</ul>";
+    outputNode.innerHTML = inner;
+    terminal.appendChild(outputNode);
+  } else {
+    textWriter(output);
+  }
+}
+
+function buildNestedList(cursor, list) {
+  Object.entries(cursor).map(([key, value]) => {
+    if (locationType(value) === types.DIR) {
+      list.push(
+        `<li class="tree-list-item directory">${key}<ul class="tree-list">`
+      );
+      buildNestedList(value, list);
+      list.push("</ul></li>");
+    } else {
+      list.push(`<li class="tree-list-item">${key}</li>`);
+    }
+  });
+  return list;
 }

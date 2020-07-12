@@ -1,5 +1,3 @@
-
-
 body {
   width: 100vw;
   height: 100vh;
@@ -24,10 +22,11 @@ body {
   --listTitle: var(--fg);
 
   --fontSize: 13px;
-  --fontFamily: 'Source Code Pro', monospace;
+  --fontFamily: "Source Code Pro", monospace;
 }
 
-body.dark { }
+body.dark {
+}
 
 body.light {
   --body-bg: #f3f3f3;
@@ -79,6 +78,17 @@ body.greyscale {
   --fg: #fff;
   --directory: #888;
   --prompt: #7a7a7a;
+  --cursor: var(--prompt);
+  --listItem: var(--fg);
+  --listTitle: var(--fg);
+}
+
+body.nightowl {
+  --body-bg: #00101d;
+  --bg: #011627;
+  --fg: #d6deeb;
+  --directory: #ffcb8b;
+  --prompt: #c792ea;
   --cursor: var(--prompt);
   --listItem: var(--fg);
   --listTitle: var(--fg);
@@ -161,4 +171,28 @@ body.greyscale {
 .default-list {
   margin: 0px;
   padding: 0em 1em;
+}
+
+.tree-list {
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+}
+.tree-list .tree-list {
+  margin: .1em 0em;
+  padding: 0em 0.5em;
+  border-left: 1px solid var(--fg);
+}
+
+.tree-list-item {
+  color: var(--fg);
+}
+
+.tree-list .tree-list .tree-list-item {
+  padding: .1em 0.5em;
+}
+
+.tree-list-item.directory {
+  color: var(--directory);
+  padding: 0.25em 0em;
 }

@@ -66,8 +66,12 @@ function touch(input) {
     const path = input[0].split("/");
     const url = input[1]; // TODO: ensure conforms to URL
     try {
+      let finalUrl = url;
+      if (!/^http|https:\/\//.test(url)) {
+        finalUrl = "https://" + url;
+      }
       const target = locatePath(path.slice(0, path.length - 1));
-      target[path[path.length - 1]] = url;
+      target[path[path.length - 1]] = finalUrl;
       writeLinks();
       return;
     } catch (err) {
@@ -171,4 +175,20 @@ function search(input) {
     return;
   }
   return COMMANDS.search.help;
+}
+
+function tree(input) {
+  try {
+    let target = links;
+    if (input.length) {
+      const path = input[0].split("/");
+      target = locatePath(path);
+    }
+    if (locationType(target) !== types.DIR) {
+      return `no such dir: ${input[0]}`;
+    }
+    return target;
+  } catch (err) {
+    return err;
+  }
 }
