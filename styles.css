@@ -5,6 +5,7 @@ body {
   background-color: var(--body-bg);
   color: var(--fg);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   font-family: var(--fontFamily);
@@ -20,6 +21,7 @@ body {
   --cursor: var(--fg);
   --listItem: var(--fg);
   --listTitle: var(--fg);
+  --link: var(--fg);
 
   --fontSize: 13px;
   --fontFamily: "Source Code Pro", monospace;
@@ -37,6 +39,7 @@ body.light {
   --cursor: var(--fg);
   --listItem: var(--fg);
   --listTitle: var(--fg);
+  --link: var(--fg);
 }
 
 body.laserwave {
@@ -48,6 +51,7 @@ body.laserwave {
   --cursor: var(--prompt);
   --listItem: var(--fg);
   --listTitle: var(--fg);
+  --link: var(--fg);
 }
 
 body.nord {
@@ -59,6 +63,7 @@ body.nord {
   --cursor: #88c0d0;
   --listItem: var(--fg);
   --listTitle: var(--fg);
+  --link: var(--fg);
 }
 
 body.dracula {
@@ -70,6 +75,7 @@ body.dracula {
   --cursor: #6272a4;
   --listItem: var(--fg);
   --listTitle: var(--fg);
+  --link: var(--fg);
 }
 
 body.greyscale {
@@ -81,6 +87,7 @@ body.greyscale {
   --cursor: var(--prompt);
   --listItem: var(--fg);
   --listTitle: var(--fg);
+  --link: var(--fg);
 }
 
 body.nightowl {
@@ -92,6 +99,7 @@ body.nightowl {
   --cursor: var(--prompt);
   --listItem: var(--fg);
   --listTitle: var(--fg);
+  --link: var(--fg);
 }
 
 #terminal {
@@ -179,7 +187,7 @@ body.nightowl {
   list-style: none;
 }
 .tree-list .tree-list {
-  margin: .1em 0em;
+  margin: 0.1em 0em;
   padding: 0em 0.5em;
   border-left: 1px solid var(--fg);
 }
@@ -189,10 +197,19 @@ body.nightowl {
 }
 
 .tree-list .tree-list .tree-list-item {
-  padding: .1em 0.5em;
+  padding: 0.1em 0.5em;
 }
 
 .tree-list-item.directory {
   color: var(--directory);
   padding: 0.25em 0em;
+}
+
+.github-link {
+  color: var(--link);
+  margin: 1em;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  text-decoration: none;
 }
