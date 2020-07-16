@@ -1,16 +1,6 @@
-body {
-  width: 100vw;
-  height: 100vh;
-  overflow: hidden;
-  background-color: var(--body-bg);
-  color: var(--fg);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--fontFamily);
-  font-size: var(--fontSize);
-}
+/**
+* Theme Definitions
+*/
 
 :root {
   --body-bg: #3f3f3f;
@@ -22,12 +12,14 @@ body {
   --listItem: var(--fg);
   --listTitle: var(--fg);
   --link: var(--fg);
+  --tree: var(--fg);
 
   --fontSize: 13px;
   --fontFamily: "Source Code Pro", monospace;
 }
 
 body.dark {
+  /* Empty definition to handle switching back to "dark" as default */
 }
 
 body.light {
@@ -40,6 +32,7 @@ body.light {
   --listItem: var(--fg);
   --listTitle: var(--fg);
   --link: var(--fg);
+  --tree: var(--fg);
 }
 
 body.laserwave {
@@ -52,6 +45,7 @@ body.laserwave {
   --listItem: var(--fg);
   --listTitle: var(--fg);
   --link: var(--fg);
+  --tree: var(--fg);
 }
 
 body.nord {
@@ -64,6 +58,7 @@ body.nord {
   --listItem: var(--fg);
   --listTitle: var(--fg);
   --link: var(--fg);
+  --tree: var(--fg);
 }
 
 body.dracula {
@@ -76,6 +71,7 @@ body.dracula {
   --listItem: var(--fg);
   --listTitle: var(--fg);
   --link: var(--fg);
+  --tree: var(--fg);
 }
 
 body.greyscale {
@@ -88,6 +84,7 @@ body.greyscale {
   --listItem: var(--fg);
   --listTitle: var(--fg);
   --link: var(--fg);
+  --tree: var(--fg);
 }
 
 body.nightowl {
@@ -100,6 +97,25 @@ body.nightowl {
   --listItem: var(--fg);
   --listTitle: var(--fg);
   --link: var(--fg);
+  --tree: var(--fg);
+}
+
+/**
+* Terminal Default Styling
+*/
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--body-bg);
+  color: var(--fg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--fontFamily);
+  font-size: var(--fontSize);
 }
 
 #terminal {
@@ -123,6 +139,10 @@ body.nightowl {
 #terminal-content p {
   margin: 0px;
 }
+
+/**
+* Prompt Styling
+*/
 
 .prompt {
   display: flex;
@@ -156,9 +176,22 @@ body.nightowl {
   flex-grow: 1;
 }
 
+/**
+* Terminal Output generic styles
+*/
+
 .terminal-output {
   margin: 0.5em 0em;
 }
+
+.default-list {
+  margin: 0px;
+  padding: 0em 1em;
+}
+
+/**
+* LS Command Styling
+*/
 
 .ls-list {
   list-style: none;
@@ -176,34 +209,53 @@ body.nightowl {
   color: var(--directory);
 }
 
-.default-list {
-  margin: 0px;
-  padding: 0em 1em;
-}
+/**
+* Tree Command Styling
+*/
 
 .tree-list {
   margin: 0px;
-  padding: 0px;
+  padding: 0em 0em 0em 1.25em;
   list-style: none;
-}
-.tree-list .tree-list {
-  margin: 0.1em 0em;
-  padding: 0em 0.5em;
-  border-left: 1px solid var(--fg);
 }
 
 .tree-list-item {
   color: var(--fg);
+  position: relative;
+  padding: 0.25em 0em 0em 0.1em;
 }
 
-.tree-list .tree-list .tree-list-item {
-  padding: 0.1em 0.5em;
+.tree-list-item::before,
+.tree-list-item::after {
+  content: "";
+  position: absolute;
+  left: -0.8rem;
+}
+
+.tree-list-item::before {
+  border-top: 1px solid var(--tree);
+  top: 0.8em;
+  width: 0.75em;
+}
+
+.tree-list-item::after {
+  border-left: 1px solid var(--tree);
+  height: 100%;
+  top: 0.3em;
+}
+
+.tree-list-item:last-child::after {
+  /* Create the right angle on the last child */
+  height: 0.5em;
 }
 
 .tree-list-item.directory {
   color: var(--directory);
-  padding: 0.25em 0em;
 }
+
+/**
+* Misc Styling
+*/
 
 .github-link {
   color: var(--link);

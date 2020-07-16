@@ -15,7 +15,7 @@ const THEMES = [
   "nightowl",
 ];
 const COMMANDS = {
-  ls: { func: joinWriter(list, listWriter), help: "usage: ls [<path to dir>]" },
+  ls: { func: joinWriter(list, treeWriter), help: "usage: ls [<path to dir>]" },
   cd: { func: joinWriter(cd, textWriter), help: "usage: cd [<path>]" },
   open: { func: joinWriter(openLink, textWriter), help: "usage: open <path>" },
   touch: {
@@ -57,7 +57,7 @@ const WEEK_DAYS = [
 ];
 const SEARCH_URL = "https://google.com/search?q=";
 // Global data
-let promptSymbol = "$";
+let promptSymbol = "$"; // Update to change prompt
 let links = {};
 let position = []; // Determines where in the link tree we are currently
 let commandHistory = [];

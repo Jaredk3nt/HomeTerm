@@ -92,6 +92,7 @@ function replacePrompt() {
   writePrompt();
 }
 
+// Parse command input by keeping strings in "" together as an single item
 function parseCommand(input) {
   const re = /"([^"]+)"|([^\s]+)/g;
   const parsedCmd = [];
@@ -101,4 +102,29 @@ function parseCommand(input) {
     parsedCmd.push(val);
   }
   return parsedCmd;
+}
+
+// Parse command array to extract flags
+function extractFlags(command, flagMap = {}) {
+  const finalCommand = [];
+  const flags = {};
+  for (let i = 0; i < command.length; i++) {
+    const arg = command[i];
+    const isFlag = /^(-|--)(\w+)/.exec(arg);
+    if (isFlag) {
+      const flag = isFlag[2];
+      // If flag marked boolean, don't capture input
+      // TODO: throw error if not found in map?
+      if (flagMap[flag] !== "boolean") {
+        flags[flag] = command[i + 1];
+        i++;
+      } else {
+        flags[flag] = true;
+      }
+    } else {
+      finalCommand.push(arg);
+    }
+  }
+
+  return { command: finalCommand, flags };
 }

@@ -1,7 +1,12 @@
-// Add flag on ls to do a tree style list to show full structure
 // Add flag on ls to show actual links with names
 function list(input) {
-  const path = input[0] && input[0].split("/");
+  const { command, flags } = extractFlags(input, {
+    t: "boolean",
+  });
+  if (flags.t) {
+    return tree(command);
+  }
+  const path = command[0] && command[0].split("/");
   try {
     const cursor = path ? locatePath(path) : getCurrentCursor();
     if (locationType(cursor) === types.DIR) {
