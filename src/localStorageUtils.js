@@ -14,3 +14,11 @@ function readTheme() {
 function writeTheme(theme) {
   localStorage.setItem(LS_THEME_KEY, theme);
 }
+
+function readEngine() {
+  return localStorage.getItem(LS_ENGINE_KEY);
+}
+
+function writeEngine(url) {
+  localStorage.setItem(LS_ENGINE_KEY, url);
+}

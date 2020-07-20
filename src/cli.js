@@ -1,19 +1,4 @@
-// Constants
-const LS_KEY = "cli-page-links";
-const LS_THEME_KEY = "cli-page-theme";
-const types = {
-  LINK: "link",
-  DIR: "directory",
-};
-const THEMES = [
-  "dark",
-  "light",
-  "laserwave",
-  "nord",
-  "greyscale",
-  "dracula",
-  "nightowl",
-];
+// Defined Commands
 const COMMANDS = {
   ls: { func: joinWriter(list, treeWriter), help: "usage: ls [<path to dir>]" },
   cd: { func: joinWriter(cd, textWriter), help: "usage: cd [<path>]" },
@@ -39,24 +24,16 @@ const COMMANDS = {
   help: { func: joinWriter(help, listWriter), help: "usage: help [<command>]" },
   search: {
     func: joinWriter(search, textWriter),
-    help: 'usage: search "<search string>"',
+    help: 'usage: search [-e] "<search string>"',
   },
   tree: {
     func: joinWriter(tree, treeWriter),
     help: "usage: tree",
   },
 };
-const WEEK_DAYS = [
-  "monday",
-  "tuesday",
-  "wednesday",
-  "thursday",
-  "friday",
-  "saturday",
-  "sunday",
-];
-const SEARCH_URL = "https://google.com/search?q=";
+
 // Global data
+let searchUrl = ENGINES.google;
 let promptSymbol = "$"; // Update to change prompt
 let links = {};
 let position = []; // Determines where in the link tree we are currently
@@ -64,10 +41,14 @@ let commandHistory = [];
 let commandHistoryCursor = -1;
 // IIFE for setup
 (() => {
-  // writeLinks();
   const lsLinks = readLinks();
   if (lsLinks) {
     links = lsLinks;
+  }
+  // Set Engine
+  const savedEngine = readEngine();
+  if (savedEngine) {
+    searchUrl = savedEngine;
   }
   // Set theme
   const currentTheme = readTheme();

@@ -14,20 +14,20 @@ A homepage disguised as a toy terminal!
 
 Here are the currently available commands that can be run on the terminal.
 
-| Command  | usage                        | description                                                                       |
-| -------- | ---------------------------- | --------------------------------------------------------------------------------- |
-| `ls`     | `ls [<path to dir>]`         | List children of current working directory or given directory.                    |
-| `tree`   | `tree [<path to dir>]`       | Lists all children of current working directory or given directory in tree format |
-| `cd`     | `cd [<path>]`                | Move into given directory. If no path given move to root.                         |
-| `open`   | `open <path to link>`        | Open a link in a new tab.                                                         |
-| `touch`  | `touch <path to link> <url>` | Create a new link                                                                 |
-| `mkdir`  | `mkdir <path to dir>`        | Create a new directory                                                            |
-| `rm`     | `rm <path to link>`          | Delete link                                                                       |
-| `rmdir`  | `rmdir <path to dir>`        | Delete dir and all contents                                                       |
-| `search` | `search "<search string>"`   | Search google with search. Must be in quotes.                                     |
-| `clear`  | `clear`                      | Clear the terminal of past commands.                                              |
-| `theme`  | `theme [<theme name>]`       | Change theme.                                                                     |
-| `help`   | `help [<command>]`           | Get information on commands.                                                      |
+| Command  | usage                             | description                                                                                                                                                                          |
+| -------- | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `ls`     | `ls [<path to dir>]`              | List children of current working directory or given directory.                                                                                                                       |
+| `tree`   | `tree [<path to dir>]`            | Lists all children of current working directory or given directory in tree format                                                                                                    |
+| `cd`     | `cd [<path>]`                     | Move into given directory. If no path given move to root.                                                                                                                            |
+| `open`   | `open <path to link>`             | Open a link in a new tab.                                                                                                                                                            |
+| `touch`  | `touch <path to link> <url>`      | Create a new link                                                                                                                                                                    |
+| `mkdir`  | `mkdir <path to dir>`             | Create a new directory                                                                                                                                                               |
+| `rm`     | `rm <path to link>`               | Delete link                                                                                                                                                                          |
+| `rmdir`  | `rmdir <path to dir>`             | Delete dir and all contents                                                                                                                                                          |
+| `search` | `search [-e] ["<search string>"]` | Search with given search string (Must be in quotes to capture multiple words). Supply `-e` with a search URL or pre-defined engine (`ddg`, `google`, `bing`) to change search engine |
+| `clear`  | `clear`                           | Clear the terminal of past commands.                                                                                                                                                 |
+| `theme`  | `theme [<theme name>]`            | Change theme.                                                                                                                                                                        |
+| `help`   | `help [<command>]`                | Get information on commands.                                                                                                                                                         |
 
 ## Theming
 

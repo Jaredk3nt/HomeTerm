@@ -53,7 +53,6 @@ function openLink(input) {
     try {
       const path = input[0].split("/");
       const target = locatePath(input[0].split("/"));
-      console.log(target);
       if (locationType(target) === types.DIR) {
         return `not a link: ${path[path.length - 1]}`;
       }
@@ -175,8 +174,22 @@ function help(input) {
 }
 
 function search(input) {
-  if (input) {
-    window.open(SEARCH_URL + input[0], "_blank");
+  const { command, flags } = extractFlags(input, {
+    e: "string",
+  });
+  let currentSearchUrl = searchUrl;
+  if (flags.e) {
+    currentSearchUrl = ENGINES[flags.e] ? ENGINES[flags.e] : flags.e;
+    if (!command[0]) {
+      // Set saved engine to given
+      searchUrl = currentSearchUrl;
+      writeEngine(currentSearchUrl);
+      return `Updated search engine to: ${currentSearchUrl}`;
+    }
+  }
+  if (command && command[0]) {
+    const searchString = command[0];
+    window.open(currentSearchUrl + searchString, "_blank");
     return;
   }
   return COMMANDS.search.help;
