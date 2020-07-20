@@ -12,6 +12,9 @@ All notable changes to the "Home Term" will be documented in this file.
 
 ## 1.3.0
 
+- Added flags for changing search engine on `search` command
+- Storing search engine options in localstorage
+
 ## 1.2.1 (07/16/2020)
 
 - Updated `tree` command styling
