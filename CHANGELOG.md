@@ -10,6 +10,10 @@ All notable changes to the "Home Term" will be documented in this file.
 | Minor  | Addition of new functionality (commands, etc)                           |
 | Patch  | Bug/style fixes and theme additions                                     |
 
+## 1.4.0
+
+- Adding mv command for renaming directories and links
+
 ## 1.3.0
 
 - Added flags for changing search engine on `search` command

@@ -30,6 +30,10 @@ const COMMANDS = {
     func: joinWriter(tree, treeWriter),
     help: "usage: tree",
   },
+  mv: {
+    func: joinWriter(mv, textWriter),
+    help: "usage: mv <source path> <target path>"
+  }
 };
 
 // Global data

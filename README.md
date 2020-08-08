@@ -27,6 +27,7 @@ Here are the currently available commands that can be run on the terminal.
 | `search` | `search [-e] ["<search string>"]` | Search with given search string (Must be in quotes to capture multiple words). Supply `-e` with a search URL or pre-defined engine (`ddg`, `google`, `bing`) to change search engine |
 | `clear`  | `clear`                           | Clear the terminal of past commands.                                                                                                                                                 |
 | `theme`  | `theme [<theme name>]`            | Change theme.                                                                                                                                                                        |
+| `mv`     | `mv <source path> <target path>`  | "Move" file or directory. Allows for renaming/moving resources within the file tree                                                                                                  |
 | `help`   | `help [<command>]`                | Get information on commands.                                                                                                                                                         |
 
 ## Theming

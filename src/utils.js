@@ -43,6 +43,16 @@ function pushCommand(cmd) {
 // Returns link url if link or cursor if directory
 // Throw error if bad path
 function locatePath(path) {
+  let cursor = locateParentPath(path);
+  const final = path[path.length - 1];
+  if (!cursor[final]) {
+    throw `no such link or directory: ${final}`;
+  }
+  return cursor[final];
+}
+
+function locateParentPath(fullPath) {
+  const path = fullPath.slice(0, fullPath.length - 1);
   let cursor = getCurrentCursor();
   const newPosition = [...position];
   for (let i = 0; i < path.length; i++) {
@@ -55,11 +65,7 @@ function locatePath(path) {
         throw `no such link or directory: ${m}`;
       }
       if (locationType(cursor[m]) === types.LINK) {
-        if (i === path.length - 1) {
-          return cursor[m];
-        } else {
-          throw `not a directory: ${m}`;
-        }
+        throw `not a directory: ${m}`;
       }
       newPosition.push(m);
       cursor = getCursor(newPosition);

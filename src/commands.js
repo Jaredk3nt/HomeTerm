@@ -210,3 +210,24 @@ function tree(input) {
     return err;
   }
 }
+
+function mv(input) {
+  try {
+    if (input.length) {
+      const sourcePath = input[0].split("/");
+      // Target will contain "new" name
+      const targetPath = input[1].split("/");
+      const sourceParent = locateParentPath(sourcePath);
+      const sourceName = sourcePath[sourcePath.length - 1];
+      const target = locateParentPath(targetPath);
+      const targetName = targetPath[targetPath.length - 1];
+      // Assign new target
+      target[targetName] = sourceParent[sourceName];
+      // Remove old source
+      delete sourceParent[sourceName];
+      writeLinks();
+    }
+  } catch (err) {
+    return err;
+  }
+}
