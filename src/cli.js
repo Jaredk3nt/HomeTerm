@@ -32,8 +32,12 @@ const COMMANDS = {
   },
   mv: {
     func: joinWriter(mv, textWriter),
-    help: "usage: mv <source path> <target path>"
-  }
+    help: "usage: mv <source path> <target path>",
+  },
+  edit: {
+    func: joinWriter(edit, textWriter),
+    help: "usage: edit <link path> <url>",
+  },
 };
 
 // Global data

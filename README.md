@@ -4,7 +4,7 @@ A homepage disguised as a toy terminal!
 
 ![HomeTerm](/media/HomeTerm.png)
 
-- Dyanmic prompt to interact with bookmarks
+- Dynamic prompt to interact with bookmarks
 - Built in Google search
 - Multiple themes with command for switching easily
 - Command history for repeating commands easily
@@ -27,7 +27,8 @@ Here are the currently available commands that can be run on the terminal.
 | `search` | `search [-e] ["<search string>"]` | Search with given search string (Must be in quotes to capture multiple words). Supply `-e` with a search URL or pre-defined engine (`ddg`, `google`, `bing`) to change search engine |
 | `clear`  | `clear`                           | Clear the terminal of past commands.                                                                                                                                                 |
 | `theme`  | `theme [<theme name>]`            | Change theme.                                                                                                                                                                        |
-| `mv`     | `mv <source path> <target path>`  | "Move" file or directory. Allows for renaming/moving resources within the file tree                                                                                                  |
+| `mv`     | `mv <source path> <target path>`  | "Move" file or directory. Allows for renaming/moving resources within the file tree.                                                                                                 |
+| `edit`   | `edit <link path> <url>`          | Change the URL value for a given link.                                                                                                                                               |
 | `help`   | `help [<command>]`                | Get information on commands.                                                                                                                                                         |
 
 ## Theming
@@ -61,11 +62,11 @@ Your TermPage file structure is stored in your browsers LocalStorage, if you enc
 
 ### Features
 
-- `edit` command for changing urls
-- `mv` to rename dir and link names
+- ~~`edit` command for changing urls~~
+- ~~`mv` to rename dir and link names~~
 - `export` and `import` for sharing your file structure with other machines
 - ~~Tree view for `ls`, and url view for `ls`~~
-- Add flags for search to change search engine
+- ~~Add flags for search to change search engine~~
 - Tab complete for commands and paths
 
 ### Themes

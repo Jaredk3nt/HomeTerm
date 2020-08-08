@@ -52,7 +52,7 @@ function openLink(input) {
   if (input.length) {
     try {
       const path = input[0].split("/");
-      const target = locatePath(input[0].split("/"));
+      const target = locatePath(path);
       if (locationType(target) === types.DIR) {
         return `not a link: ${path[path.length - 1]}`;
       }
@@ -67,17 +67,13 @@ function openLink(input) {
 
 function touch(input) {
   if (input.length == 2) {
-    const path = input[0].split("/");
-    const url = input[1]; // TODO: ensure conforms to URL
     try {
-      let finalUrl = url;
-      if (!/^http|https:\/\//.test(url)) {
-        finalUrl = "https://" + url;
-      }
-      const target = locatePath(path.slice(0, path.length - 1));
-      target[path[path.length - 1]] = finalUrl;
-      writeLinks();
-      return;
+      const path = input[0].split("/");
+      const url = formatUrl(input[1]);
+      const parent = locateParentPath(path);
+      const target = path[path.length - 1];
+      parent[target] = url;
+      return writeLinks();
     } catch (err) {
       return err;
     }
@@ -117,15 +113,15 @@ function rm(input) {
   if (input.length) {
     const path = input[0].split("/");
     try {
-      const target = locatePath(path.slice(0, path.length - 1));
-      const linkToDelete = path[path.length - 1];
-      if (!target[linkToDelete]) {
-        return `no such link: ${linkToDelete}`;
+      const parent = locateParentPath(path);
+      const target = path[path.length - 1];
+      if (!parent[target]) {
+        return `no such link: ${target}`;
       }
-      if (!locationType(target[linkToDelete]) === types.LINK) {
-        return `not a link: ${linkToDelete}`;
+      if (locationType(parent[target]) !== types.LINK) {
+        return `not a link: ${target}`;
       }
-      delete target[linkToDelete];
+      delete parent[target];
       writeLinks();
       return;
     } catch (err) {
@@ -139,15 +135,15 @@ function rmdir(input) {
   if (input.length) {
     const path = input[0].split("/");
     try {
-      const target = locatePath(path.slice(0, path.length - 1));
-      const dirToDelete = path[path.length - 1];
-      if (!target[dirToDelete]) {
-        return `no such dir: ${dirToDelete}`;
+      const parent = locateParentPath(path);
+      const target = path[path.length - 1];
+      if (!parent[target]) {
+        return `no such dir: ${target}`;
       }
-      if (!locationType(target[dirToDelete]) === types.DIR) {
-        return `not a dir: ${dirToDelete}`;
+      if (locationType(parent[target]) !== types.DIR) {
+        return `not a dir: ${target}`;
       }
-      delete target[dirToDelete];
+      delete parent[target];
       writeLinks();
       return;
     } catch (err) {
@@ -197,15 +193,12 @@ function search(input) {
 
 function tree(input) {
   try {
-    let target = links;
-    if (input.length) {
-      const path = input[0].split("/");
-      target = locatePath(path);
-    }
-    if (locationType(target) !== types.DIR) {
+    const path = input[0] && input[0].split("/");
+    const cursor = path ? locatePath(path) : getCurrentCursor();
+    if (locationType(cursor) !== types.DIR) {
       return `no such dir: ${input[0]}`;
     }
-    return target;
+    return cursor;
   } catch (err) {
     return err;
   }
@@ -213,20 +206,40 @@ function tree(input) {
 
 function mv(input) {
   try {
-    if (input.length) {
-      const sourcePath = input[0].split("/");
-      // Target will contain "new" name
-      const targetPath = input[1].split("/");
-      const sourceParent = locateParentPath(sourcePath);
-      const sourceName = sourcePath[sourcePath.length - 1];
-      const target = locateParentPath(targetPath);
-      const targetName = targetPath[targetPath.length - 1];
-      // Assign new target
-      target[targetName] = sourceParent[sourceName];
-      // Remove old source
-      delete sourceParent[sourceName];
-      writeLinks();
+    if (input.length < 2) {
+      return COMMANDS.mv.help;
     }
+    const sourcePath = input[0].split("/");
+    // Target will contain "new" name
+    const targetPath = input[1].split("/");
+    const sourceParent = locateParentPath(sourcePath);
+    const sourceName = sourcePath[sourcePath.length - 1];
+    const target = locateParentPath(targetPath);
+    const targetName = targetPath[targetPath.length - 1];
+    // Assign new target
+    target[targetName] = sourceParent[sourceName];
+    // Remove old source
+    delete sourceParent[sourceName];
+    return writeLinks();
+  } catch (err) {
+    return err;
+  }
+}
+
+function edit(input) {
+  try {
+    if (input.length < 2) {
+      return COMMANDS.edit.help;
+    }
+    const path = input[0].split("/");
+    const target = path[path.length - 1];
+    const parent = locateParentPath(path);
+    if (locationType(parent[target]) !== types.LINK) {
+      throw "not a link: ${target}";
+    }
+    const url = formatUrl(input[1]);
+    parent[target] = url;
+    return writeLinks();
   } catch (err) {
     return err;
   }

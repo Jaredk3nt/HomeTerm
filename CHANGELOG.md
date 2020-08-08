@@ -10,9 +10,15 @@ All notable changes to the "Home Term" will be documented in this file.
 | Minor  | Addition of new functionality (commands, etc)                           |
 | Patch  | Bug/style fixes and theme additions                                     |
 
+## 1.5.0
+
+- Added `edit` command
+- Bug fixes on tree
+- Code cleanup & refactoring
+
 ## 1.4.0
 
-- Adding mv command for renaming directories and links
+- Added `mv` command for renaming directories and links
 
 ## 1.3.0
 
@@ -25,8 +31,8 @@ All notable changes to the "Home Term" will be documented in this file.
 
 ## 1.2.0 (07/12/2020)
 
-- Adding handling for urls without `http/https` supplied in links
-- Adding `tree` command
+- Added handling for urls without `http/https` supplied in links
+- Added `tree` command
 - Added `nightowl` theme
 
 ## 1.1.0 (07/10/2020)

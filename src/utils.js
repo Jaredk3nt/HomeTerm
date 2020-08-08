@@ -44,11 +44,14 @@ function pushCommand(cmd) {
 // Throw error if bad path
 function locatePath(path) {
   let cursor = locateParentPath(path);
-  const final = path[path.length - 1];
-  if (!cursor[final]) {
-    throw `no such link or directory: ${final}`;
+  if (path.length) {
+    const final = path[path.length - 1];
+    if (!cursor[final]) {
+      throw `no such link or directory: ${final}`;
+    }
+    return cursor[final];
   }
-  return cursor[final];
+  return cursor;
 }
 
 function locateParentPath(fullPath) {
@@ -133,4 +136,12 @@ function extractFlags(command, flagMap = {}) {
   }
 
   return { command: finalCommand, flags };
+}
+
+function formatUrl(url) {
+  let finalUrl = url;
+  if (!/^http|https:\/\//.test(finalUrl)) {
+    finalUrl = "https://" + finalUrl;
+  }
+  return finalUrl;
 }
