@@ -145,3 +145,52 @@ function formatUrl(url) {
   }
   return finalUrl;
 }
+
+function removeTempOutput() {
+  const tempNode = document.getElementById(TEMP_NODE_ID);
+  if (tempNode) {
+    tempNode.remove();
+  }
+}
+
+function handleAutoComplete() {
+  const input = document.getElementById("prompt-input");
+  const parsedInput = parseCommand(input.value);
+  let currentLocation = COMMAND_TREE;
+  let possibleChoices = [];
+  for (let i = 0; i < parsedInput.length; i++) {
+    const current = parsedInput[i];
+    // Simple case, we have already found where we are supposed to be
+    if (currentLocation[current]) {
+      currentLocation = currentLocation[current];
+    }
+    // Unfinished case
+    possibleChoices.push(
+      ...Object.keys(currentLocation)
+        .filter((item) => item.startsWith(current))
+        .map((item) => ({
+          choice: item,
+          replace: item.slice(current.length, item.length),
+        }))
+    );
+    if (possibleChoices.length) break;
+  }
+
+  // TODO: remove flags from parsed input
+  // TODO: determine what each piece is. Is it a command (or partial), if not is it a PATH, if not assume RAW. If empty do nothing
+  // TODO: find current pos in tree
+  // TODO: use tree and current pos to determine possible next options
+  // TODO: use next option to fill input if possible
+  // TODO: allow tab to cycle through options if no typing has been made since last tab
+  if (!possibleChoices || !possibleChoices.length) {
+    return;
+  } else if (possibleChoices.length == 1) {
+    return (input.value = input.value + possibleChoices[0].replace);
+  } else {
+    // TODO: save state to replace later on
+    return listWriter(
+      possibleChoices.map(({ choice }) => choice),
+      { id: TEMP_NODE_ID }
+    );
+  }
+}

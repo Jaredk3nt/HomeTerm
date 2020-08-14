@@ -1,45 +1,3 @@
-// Defined Commands
-const COMMANDS = {
-  ls: { func: joinWriter(list, treeWriter), help: "usage: ls [<path to dir>]" },
-  cd: { func: joinWriter(cd, textWriter), help: "usage: cd [<path>]" },
-  open: { func: joinWriter(openLink, textWriter), help: "usage: open <path>" },
-  touch: {
-    func: joinWriter(touch, textWriter),
-    help: "usage: touch <path to link> <url>",
-  },
-  mkdir: {
-    func: joinWriter(mkdir, textWriter),
-    help: "usage: mkdir <path to dir>",
-  },
-  theme: {
-    func: joinWriter(theme, ulWriter),
-    help: "usage: theme <theme name>",
-  },
-  rm: { func: joinWriter(rm, textWriter), help: "usage: rm <link path>" },
-  rmdir: {
-    func: joinWriter(rmdir, textWriter),
-    help: "usage: rmdir <dir path>",
-  },
-  clear: { func: clear, help: "usage: clear" },
-  help: { func: joinWriter(help, listWriter), help: "usage: help [<command>]" },
-  search: {
-    func: joinWriter(search, textWriter),
-    help: 'usage: search [-e] "<search string>"',
-  },
-  tree: {
-    func: joinWriter(tree, treeWriter),
-    help: "usage: tree",
-  },
-  mv: {
-    func: joinWriter(mv, textWriter),
-    help: "usage: mv <source path> <target path>",
-  },
-  edit: {
-    func: joinWriter(edit, textWriter),
-    help: "usage: edit <link path> <url>",
-  },
-};
-
 // Global data
 let searchUrl = ENGINES.google;
 let promptSymbol = "$"; // Update to change prompt
@@ -47,6 +5,7 @@ let links = {};
 let position = []; // Determines where in the link tree we are currently
 let commandHistory = [];
 let commandHistoryCursor = -1;
+let autoCompleteHistory = [];
 // IIFE for setup
 (() => {
   const lsLinks = readLinks();
@@ -74,6 +33,12 @@ let commandHistoryCursor = -1;
 })();
 
 function handleKeyPresses(e) {
+  if (e.keyCode === 9) {
+    // Tab
+    e.preventDefault();
+    e.stopPropagation();
+    handleAutoComplete();
+  }
   if (e.keyCode === 13) {
     // Enter
     const input = document.getElementById("prompt-input");

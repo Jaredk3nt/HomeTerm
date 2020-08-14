@@ -1,3 +1,75 @@
+// Defined Commands
+const RAW = "**";
+const PATH = "*path";
+const COMMANDS = {
+  ls: {
+    func: joinWriter(list, treeWriter),
+    help: "usage: ls [<path to dir>]",
+    children: {
+      [PATH]: false,
+    },
+  },
+  cd: {
+    func: joinWriter(cd, textWriter),
+    help: "usage: cd [<path>]",
+    children: {
+      [PATH]: false,
+    },
+  },
+  open: {
+    func: joinWriter(openLink, textWriter),
+    help: "usage: open <path>",
+    children: {
+      [PATH]: false,
+    },
+  },
+  touch: {
+    func: joinWriter(touch, textWriter),
+    help: "usage: touch <path to link> <url>",
+    children: {
+      [PATH]: {
+        [RAW]: false,
+      },
+    },
+  },
+  mkdir: {
+    func: joinWriter(mkdir, textWriter),
+    help: "usage: mkdir <path to dir>",
+  },
+  theme: {
+    func: joinWriter(theme, ulWriter),
+    help: "usage: theme <theme name>",
+  },
+  rm: { func: joinWriter(rm, textWriter), help: "usage: rm <link path>" },
+  rmdir: {
+    func: joinWriter(rmdir, textWriter),
+    help: "usage: rmdir <dir path>",
+  },
+  clear: { func: clear, help: "usage: clear" },
+  help: { func: joinWriter(help, listWriter), help: "usage: help [<command>]" },
+  search: {
+    func: joinWriter(search, textWriter),
+    help: 'usage: search [-e] "<search string>"',
+  },
+  tree: {
+    func: joinWriter(tree, treeWriter),
+    help: "usage: tree",
+  },
+  mv: {
+    func: joinWriter(mv, textWriter),
+    help: "usage: mv <source path> <target path>",
+  },
+  edit: {
+    func: joinWriter(edit, textWriter),
+    help: "usage: edit <link path> <url>",
+  },
+};
+
+const COMMAND_LIST = Object.keys(COMMANDS);
+const COMMAND_TREE = Object.fromEntries(
+  Object.entries(COMMANDS).map(([command, { children }]) => [command, children])
+);
+
 // Add flag on ls to show actual links with names
 function list(input) {
   const { command, flags } = extractFlags(input, {

@@ -1,82 +1,67 @@
-function listWriter(output) {
-  if (Array.isArray(output)) {
+const TEMP_NODE_ID = "temp-terminal-output";
+
+function createWriter(createInner) {
+  return function (output = "", { className, id } = {}) {
+    removeTempOutput();
+
     const terminal = document.getElementById("terminal-content");
     const outputNode = document.createElement("div");
-    outputNode.classList.add("terminal-output");
-    let inner = "<ul class='ls-list'>";
+    if (id) outputNode.setAttribute("id", id);
+    outputNode.classList.add(className || "terminal-output");
+    const inner = createInner(output);
+    outputNode.innerHTML = inner;
+    terminal.appendChild(outputNode);
+  };
+}
+
+function listInner(
+  output,
+  { ulClassName = "ls-list", liClassName = "ls-item" } = {}
+) {
+  if (Array.isArray(output)) {
+    let inner = `<ul class='${ulClassName}'>`;
     inner =
       inner +
       output
-        .map((item) => `<li class='ls-item ${item.type}'>${item.key}</li>`)
+        .map((item) => {
+          if (item.key && item.type) {
+            return `<li class='${liClassName} ${item.type}'>${item.key}</li>`;
+          }
+          return `<li class='${liClassName}'>${item}</li>`;
+        })
         .join("");
     inner = inner + "</ul>";
-    outputNode.innerHTML = inner;
-    terminal.appendChild(outputNode);
+    return inner;
   } else {
-    textWriter(output);
+    return textInner(output);
   }
 }
+const listWriter = createWriter(listInner);
 
-function textWriter(output = "") {
-  const terminal = document.getElementById("terminal-content");
-  const outputNode = document.createElement("div");
-  outputNode.classList.add("terminal-output");
-  const textNode = document.createElement("p");
-  textNode.innerText = output;
-  outputNode.appendChild(textNode);
-  terminal.appendChild(outputNode);
+function textInner(output) {
+  return `<p>${output}</p>`;
 }
+const textWriter = createWriter(textInner);
 
-function ulWriter(output = "") {
-  // TODO: simplify these cases together
+function ulInner(output) {
   if (Array.isArray(output)) {
-    // Simple ul
-    const terminal = document.getElementById("terminal-content");
-    const outputNode = document.createElement("div");
-    outputNode.classList.add("terminal-output");
-    let inner = "<ul class='default-list'>";
-    inner =
-      inner +
-      output
-        .map((item) => `<li class='default-list-item'>${item}</li>`)
-        .join("");
-    inner = inner + "</ul>";
-    outputNode.innerHTML = inner;
-    terminal.appendChild(outputNode);
+    return listInner(output, {
+      ulClassName: "default-list",
+      liClassName: "default-list-item",
+    });
   } else if (output.title && output.items) {
-    // Ul with title
-    const terminal = document.getElementById("terminal-content");
-    const outputNode = document.createElement("div");
-    outputNode.classList.add("terminal-output");
-    let inner = `<p class='default-list-title'>${output.title}</p><ul class='default-list'>`;
-    inner =
-      inner +
-      output.items
-        .map((item) => `<li class='default-list-item'>${item}</li>`)
-        .join("");
-    inner = inner + "</ul>";
-    outputNode.innerHTML = inner;
-    terminal.appendChild(outputNode);
+    return `<p class='default-list-title'>${output.title}</p>${listInner(
+      output.items,
+      {
+        ulClassName: "default-list",
+        liClassName: "default-list-item",
+      }
+    )}`;
   } else {
-    textWriter(output);
+    return textInner(output);
   }
 }
-
-function treeWriter(output = "") {
-  if (Array.isArray(output)) {
-    listWriter(output);
-  } else if (typeof output === "object") {
-    const terminal = document.getElementById("terminal-content");
-    const outputNode = document.createElement("div");
-    outputNode.classList.add("terminal-output");
-    let inner = "<ul class='tree-list'>";
-    inner = inner + buildNestedList(output, []).join("") + "</ul>";
-    outputNode.innerHTML = inner;
-    terminal.appendChild(outputNode);
-  } else {
-    textWriter(output);
-  }
-}
+const ulWriter = createWriter(ulInner);
 
 function buildNestedList(cursor, list) {
   Object.entries(cursor).map(([key, value]) => {
@@ -92,3 +77,13 @@ function buildNestedList(cursor, list) {
   });
   return list;
 }
+
+function treeInner(output) {
+  if (Array.isArray(output)) {
+    return listInner(output);
+  } else if (typeof output === "object") {
+    let inner = "<ul class='tree-list'>";
+    return inner + buildNestedList(output, []).join("") + "</ul>";
+  }
+}
+const treeWriter = createWriter(treeInner);
