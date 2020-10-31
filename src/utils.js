@@ -18,7 +18,9 @@ function joinWriter(command, writer) {
 }
 
 function focusPrompt() {
-  document.getElementById("prompt-input").focus();
+  const input = document.getElementById("prompt-input");
+  input.focus();
+  input.setSelectionRange(input.value.length, input.value.length);
 }
 
 function getCursor(pos) {
