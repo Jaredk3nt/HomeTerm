@@ -134,6 +134,15 @@ body {
   height: 100%;
   overflow: scroll;
   padding: 0em 1.5em;
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#terminal-content::-webkit-scrollbar {
+  display: none;
 }
 
 #terminal-content p {
@@ -157,6 +166,7 @@ body {
   font-family: var(--fontFamily);
   font-size: var(--fontSize);
 }
+
 #prompt-input:focus {
   outline: none;
 }
