@@ -74,35 +74,38 @@ let commandHistoryCursor = -1;
 })();
 
 function handleKeyPresses(e) {
-  if (e.keyCode === 13) {
-    // Enter
-    const input = document.getElementById("prompt-input");
-    return runCommand(input.value);
-  }
-  if (e.keyCode === 38) {
-    // Up
-    if (commandHistoryCursor === -1 && commandHistory.length) {
-      commandHistoryCursor = commandHistory.length - 1;
-      return pushCommand(commandHistory[commandHistoryCursor]);
-    }
-    if (commandHistoryCursor > 0) {
-      commandHistoryCursor--;
-      return pushCommand(commandHistory[commandHistoryCursor]);
-    }
-  }
-  if (e.keyCode === 40) {
-    // Down
-    if (commandHistoryCursor === commandHistory.length - 1) {
-      commandHistoryCursor = -1;
-      return pushCommand("");
-    }
-    if (
-      commandHistoryCursor >= 0 &&
-      commandHistoryCursor < commandHistory.length
-    ) {
-      commandHistoryCursor++;
-      return pushCommand(commandHistory[commandHistoryCursor]);
-    }
+  switch (e.key) {
+    case "Enter":
+      e.preventDefault();
+      const input = document.getElementById("prompt-input");
+      return runCommand(input.value);
+    case "ArrowUp":
+      e.preventDefault();
+      if (commandHistoryCursor === -1 && commandHistory.length) {
+        commandHistoryCursor = commandHistory.length - 1;
+        return pushCommand(commandHistory[commandHistoryCursor]);
+      }
+      if (commandHistoryCursor > 0) {
+        commandHistoryCursor--;
+        return pushCommand(commandHistory[commandHistoryCursor]);
+      }
+      break;
+    case "ArrowDown":
+      e.preventDefault();
+      if (commandHistoryCursor === commandHistory.length - 1) {
+        commandHistoryCursor = -1;
+        return pushCommand("");
+      }
+      if (
+        commandHistoryCursor >= 0 &&
+        commandHistoryCursor < commandHistory.length
+      ) {
+        commandHistoryCursor++;
+        return pushCommand(commandHistory[commandHistoryCursor]);
+      }
+      break;
+    default:
+      break;
   }
 }
 
